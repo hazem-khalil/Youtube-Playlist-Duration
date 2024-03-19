@@ -13,16 +13,15 @@ seconds_pattern = re.compile(r'(\d+)S')
 
 total_seconds = 0
 
-nextPageToken = None
+# Enter Numbers of videos you want to calculate their durations
+numbers_of_videos = 4
 
 while True:
-
 	pl_request = youtube.playlistItems().list(
 			part='contentDetails',
-			# Youtube Playlist is here
+			# Youtube Playlist 
 			playlistId="PLE8kQVoC67PzGwMMsSk3C8MvfAqcYjusF",
-			maxResults=50,
-			pageToken = nextPageToken
+			maxResults=numbers_of_videos, 
 		)
 
 	pl_response = pl_request.execute()
@@ -59,9 +58,12 @@ while True:
 		total_seconds += video_seconds
 
 	nextPageToken = pl_response.get('nextPageToken')
-	
-	if not nextPageToken:
-		break
+
+	api_max_results = 50
+	if numbers_of_videos > api_max_results:
+		numbers_of_videos -= api_max_results
+	else:
+		break	
 
 total_seconds = int(total_seconds)
 
