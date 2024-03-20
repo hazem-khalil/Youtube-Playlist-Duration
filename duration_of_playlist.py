@@ -7,11 +7,15 @@ api_key = os.environ.get('YT_API_KEY')
 
 youtube = build('youtube', 'v3', developerKey=api_key)
 
+playlist_id = "PLE8kQVoC67PzGwMMsSk3C8MvfAqcYjusF"
+
 hours_pattern = re.compile(r'(\d+)H')
 minutes_pattern = re.compile(r'(\d+)M')
 seconds_pattern = re.compile(r'(\d+)S')
 
 total_seconds = 0
+
+api_max_results = 50
 
 nextPageToken = None
 
@@ -19,9 +23,8 @@ while True:
 
 	pl_request = youtube.playlistItems().list(
 			part='contentDetails',
-			# Youtube Playlist is here
-			playlistId="PLE8kQVoC67PzGwMMsSk3C8MvfAqcYjusF",
-			maxResults=50,
+			playlistId=playlist_id,
+			maxResults=api_max_results,
 			pageToken = nextPageToken
 		)
 

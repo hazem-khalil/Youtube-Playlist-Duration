@@ -7,20 +7,21 @@ api_key = os.environ.get('YT_API_KEY')
 
 youtube = build('youtube', 'v3', developerKey=api_key)
 
+playlist_id = "PLE8kQVoC67PzGwMMsSk3C8MvfAqcYjusF"
+
 hours_pattern = re.compile(r'(\d+)H')
 minutes_pattern = re.compile(r'(\d+)M')
 seconds_pattern = re.compile(r'(\d+)S')
 
 total_seconds = 0
 
-# Enter Numbers of videos you want to calculate their durations
+api_max_results = 50
 numbers_of_videos = 4
 
 while True:
 	pl_request = youtube.playlistItems().list(
 			part='contentDetails',
-			# Youtube Playlist 
-			playlistId="PLE8kQVoC67PzGwMMsSk3C8MvfAqcYjusF",
+			playlistId=playlist_id,
 			maxResults=numbers_of_videos, 
 		)
 
@@ -59,7 +60,6 @@ while True:
 
 	nextPageToken = pl_response.get('nextPageToken')
 
-	api_max_results = 50
 	if numbers_of_videos > api_max_results:
 		numbers_of_videos -= api_max_results
 	else:
